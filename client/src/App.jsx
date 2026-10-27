@@ -38,11 +38,11 @@ function RoomList({ canBook }) {
     <MDBRow>{rooms.map(r => (
       <MDBCol md="4" className="mb-4" key={r._id}>
         <MDBCard className="h-100">
-          <MDBCardImage src={r.image || fallback} style={{ height: 200, objectFit: 'cover' }} />
+         <MDBCardImage src={r.image || fallback} onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = fallback; }} style={{ height: 200, objectFit: 'cover' }} />
           <MDBCardBody>
             <MDBCardTitle>{r.type} <small className="text-primary">₹{r.price}/night</small></MDBCardTitle>
             <MDBCardText>{r.description}</MDBCardText>
-            {r.features?.map(f => <MDBBadge key={f} className="me-1" color="info">{f}</MDBBadge>)}
+            {r.features?.map(f => <MDBBadge key={f} className="me-1" color="info">{f.replace(/['"]/g, '')}</MDBBadge>)}
             {canBook === true && <div className="mt-3">
               <MDBInput type="date" label="Check-in" className="mb-2" onChange={e => setD(r._id, 'from', e.target.value)} />
               <MDBInput type="date" label="Check-out" className="mb-2" onChange={e => setD(r._id, 'to', e.target.value)} />
@@ -54,8 +54,7 @@ function RoomList({ canBook }) {
     </MDBRow>
   );
 }
-
-const slides = [['photo-1566073771259-6a8506099945', 'Luxury Suites'], ['photo-1582719478250-c89cae4dc85b', 'Comfort & Elegance'], ['photo-1551882547-ff40c63fe5fa', 'Your Home Away From Home']];
+const slides = [['photo-1611892440504-42a792e24d32', 'Luxury Suites'], ['photo-1611892440504-42a792e24d32', 'Comfort & Elegance'], ['photo-1611892440504-42a792e24d32', 'Your Home Away From Home']];
 function Home() {
   return (<>
     <MDBCarousel showControls showIndicators>
